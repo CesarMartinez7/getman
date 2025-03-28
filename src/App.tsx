@@ -12,7 +12,7 @@ const Methodos = [
 ];
 
 function App() {
-  const [selectedMethod, setSelectedMethod] = useState("GET");
+  const [selectedMethod, setSelectedMethod] = useState("");
   const urlPeticion = useRef(null);
   const [responseSelected, setResponseSelected] = useState("");
   const [changeRequest, setChangeRequest] = useState(false);
@@ -42,7 +42,7 @@ function App() {
           response = await axios.patch(url, { data: "Ejemplo de PATCH" }).then((response) => setCode(response.status));
           break;
         default:
-          response = await axios.get(url).then((response) => setCode(response.status));;
+          response = await axios.get(url);
       }
 
       setResponseSelected(JSON.stringify(response.data, null, 2));
@@ -57,7 +57,9 @@ function App() {
       <div className="w-full gap-2 flex">
         <form onSubmit={handleRequest}>
           <div>
-            Selected Method: {selectedMethod}
+            <span style={{ fontSize: "11px" }}>
+              Selected Method: {selectedMethod}
+            </span>
           </div>
           <div className="flex-row">
             <button type="button" onClick={() => setShowMethods(!showMethods)} className="button-toggle">
@@ -96,13 +98,11 @@ function App() {
           <pre className="gridi">
             <pre style={{ display: "flex", justifyContent: "flex-end" }} >
               <span className="btn-response">{code}</span>
-            </pre>
             <div className={`${!responseSelected ? "center-flex" : null} `}>
-              {responseSelected ? (responseSelected) : (<>
-                <Icon icon="pixel:code-solid" width="140" height="140" />
-                <p>Not found request</p></>)}
+              
 
             </div>
+            </pre>
           </pre>
         </div>
       </div>
