@@ -1,6 +1,6 @@
-#root {
-  padding: 3rem;
-}
+@import "tailwindcss";
+
+
 
 
 .navbar {
@@ -8,6 +8,161 @@
 }
 
 
+* {
+  box-sizing: border-box;
+  font-family: "Ubuntu";
+}
+
+@font-face {
+  font-family: 'Ubuntu';
+  src: url('./font/Ubuntu-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  
+}
+
+
+.method-buttons{
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  position: fixed;
+  
+
+}
+
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+
+input {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+
+.button-get{
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #15b21563;
+  cursor: pointer;
+  color: rgb(5, 190, 5);
+  transition: border-color 0.25s;
+}
+
+
+.button-delete{
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #b2151554;
+  cursor: pointer;
+  color: rgba(220, 53, 11, 0.853);
+  transition: border-color 0.25s;
+}
+
+
+.button-post{
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #dc7f0d63;
+  cursor: pointer;
+  color: rgba(190, 119, 5, 0.811);
+  transition: border-color 0.25s;
+}
+
+
+.button-put {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1565b263; /* Azul */
+  cursor: pointer;
+  color: rgba(5, 119, 190, 0.811);
+  transition: border-color 0.25s;
+}
+
+.button-patch {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #8a2be263; /* Morado */
+  cursor: pointer;
+  color: rgb(143, 8, 227);
+  transition: border-color 0.25s;
+}
+
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
 
 
 :root {
@@ -97,13 +252,15 @@
 }
 
 
-
 .btn-response{
-  
-  padding-left: 6px;
-  padding-right: 6px;
+  width: 10px;
+  height: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   border-radius: 3px;
-  width: fit-content;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  font-size: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -121,15 +278,10 @@
 
 .response-grid {
   display: grid;
-  gap: 4rem;
+  gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   padding: 1rem;
 }
 
-@media (max-width: 600px) {
-  .response-grid {
-    grid-template-columns: 1fr;
-  }
-}
 
 

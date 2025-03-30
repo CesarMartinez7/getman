@@ -1,0 +1,100 @@
+
+
+/* Colores Kanagawa adicionales (puedes usarlos en otros elementos) */
+:root {
+    --sumi-ink0: #16161d;
+    --sumi-ink1: #1f1f28;
+    --sumi-ink2: #2a2a37;
+    --sumi-ink3: #363646;
+    --wave-blue1: #223249;
+    --wave-blue2: #7e9cd8;
+    --winter-green: #2b3328;
+    --winter-yellow: #49443c;
+    --winter-red: #43242b;
+    --winter-blue: #252535;
+    --autumn-green: #76946a;
+    --autumn-red: #c34043;
+    --autumn-yellow: #dca561;
+    --samurai-red: #e82424;
+    --ronin-yellow: #ff9e3b;
+    --dragon-blue: #658594;
+    --fuji-white: #dcd7ba;
+    --fuji-gray: #727169;
+    --spring-violet1: #938aa9;
+    --spring-violet2: #9cabca;
+    --carp-yellow: #e6c384;
+    --sakura-pink: #d27e99;
+    --peach-red: #ff5d62;
+    --surimi-orange: #ffa066;
+    --katana-gray: #717c7c;
+    --yamabuki: #e6c384;
+  }
+
+
+
+
+
+
+/* Tema Kanagawa (personalizado para react-json-pretty) */
+.rjp-container {
+    background-color: #1f1f28 !important; /* Fondo oscuro */
+    border-radius: 6px;
+    padding: 1rem;
+    font-family: 'Fira Code', monospace;
+  }
+  
+  .rjp-key {
+    color: #7e9cd8 !important; /* Azul suave para keys */
+  }
+  
+  .rjp-string {
+    color: #98bb6c !important; /* Verde para strings */
+  }
+  
+  .rjp-number {
+    color: #e6c384 !important; /* Amarillo/naranja para números */
+  }
+  
+  .rjp-boolean {
+    color: #ffa066 !important; /* Naranja para booleanos */
+  }
+  
+  .rjp-null {
+    color: #d27e99 !important; /* Rosa para null */
+  }
+  
+  .rjp-undefined {
+    color: #d27e99 !important;
+  }
+  
+  .rjp-function {
+    color: #7fb4ca !important; /* Azul claro para funciones */
+  }
+  
+  .rjp-bracket {
+    color: #dcd7ba !important; /* Beige claro para corchetes */
+  }
+  
+  .rjp-colon {
+    color: #dcd7ba !important;
+  }
+  
+  .rjp-comma {
+    color: #dcd7ba !important;
+  }
+  
+  /* Estilo para el contenedor principal del JSON */
+  .json-response-container {
+    background-color: #1f1f28;
+    border: 1px solid #363646;
+    border-radius: 6px;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  /* Estilo para el código de estado */
+  .btn-response {
+    background-color: #2a2a37;
+    color: #dcd7ba;
+    border: 1px solid #363646;
+  }
