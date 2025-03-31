@@ -7,6 +7,7 @@ import ButtonResponse from "./ui/span-response";
 import "./tema.css"
 import "react-json-pretty/themes/monikai.css";
 import { Editor } from "@monaco-editor/react";
+import AddNewItem from "./ui/add-new-item";
 
 
 
@@ -65,6 +66,9 @@ function App() {
   const [mimeSelected, setMimeSelected] = useState<number>(0)
 
 
+  const [bodyJson, setBodyJson] = useState<string>("")
+
+
   const editorRef = useRef(null);
 
   function handleEditorDidMount(editor, monaco) {
@@ -72,25 +76,10 @@ function App() {
   }
 
   function showValue() {
-    alert(editorRef.current?.getValue());
+    //@ts-ignore
+    setBodyJson(editorRef.current?.getValue());
+    console.error(bodyJson)
   }
-
-
-
-
-
-  const editorValue = useRef<HTMLInputElement>(null)
-
-
-
-  function handleEditorValidation(markers) {
-    // model markers
-    markers.forEach((marker) => console.log('onValidate:', marker.message));
-
-  }
-
-  const [queryParams, setQueryParams] = useState<string>("")
-
 
   const handleRequest = async (e: React.FormEvent) => {
 
@@ -99,12 +88,7 @@ function App() {
 
     try {
 
-
-
-
-
       const url = urlPeticion.current.value;
-
 
       let response;
 
@@ -134,12 +118,21 @@ function App() {
     }
   };
 
+
+  function handleEditorValidation(markers) {
+    // model markers
+    markers.forEach((marker) => console.log('onValidate:', marker.message));
+
+  }
+
+  const [queryParams, setQueryParams] = useState<string>("")
+
   return (
     <div>
       <div className="w-full gap-2 flex flex-col">
         <form onSubmit={handleRequest}>
           <div className="my-3">
-            <span style={{ fontSize: "11px" }}>
+            <span className="text-[12px]">
               Selected Method: {selectedMethod}
             </span>
           </div>
@@ -195,12 +188,63 @@ function App() {
               {mimeSelected === 1 ? (
                 <>
                   <button onClick={showValue}>Show value</button>
-                <Editor onMount={handleEditorDidMount} onValidate={handleEditorValidation}  height="60vh" defaultLanguage="json" theme="vs-dark" />
+                  <Editor onMount={handleEditorDidMount} onValidate={handleEditorValidation} height="60vh" defaultLanguage="json" theme="vs-dark" />
                 </>
               ) : null}
 
               {mimeSelected === 0 ? (
+
                 <div className="w-full h-full">
+                  <AddNewItem />
+                  <div className="relative overflow-x-auto">
+                    <table className="w-full text-sm text-left rtl:text-right  ">
+                      <thead className="text-xs  uppercase ">
+                        <tr>
+                          <th scope="col" className="px-6 py-3">
+                            Name
+                          </th>
+                          <th scope="col" className="px-6 py-3">
+                            Value
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className=" border-b border-zinc-800">
+                          <th scope="row" className="px-6 py-4 ">
+                            Apple MacBook Pro 17"
+                          </th>
+                          <td className="px-6 py-4">
+                            Silver
+                          </td>
+
+                        </tr>
+                        <tr className=" border-b   border-zinc-800">
+                          <th scope="row" className="px-6 py-4 font-medium">
+                            Microsoft Surface Pro
+                          </th>
+                          <td className="px-6 py-4">
+                            White
+                          </td>
+
+                        </tr>
+                        <tr className=" ">
+                          <th scope="row" className="px-6 py-4 font-medium">
+                            Magic Mouse 2
+                          </th>
+                          <td className="px-6 py-4">
+                            Black
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+
+
+
+
+
+
                   <p>Query</p>
                   <input
                     type="text"
@@ -210,6 +254,8 @@ function App() {
                     onChange={(e) => setQueryParams(e.target.value)}
                   />
                 </div>
+
+
               ) : null}
 
 
