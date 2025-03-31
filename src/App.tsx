@@ -6,6 +6,8 @@ import JSONPretty from "react-json-pretty";
 import ButtonResponse from "./ui/span-response";
 import "./tema.css"
 import "react-json-pretty/themes/monikai.css";
+import { Editor } from "@monaco-editor/react";
+
 
 
 const Methodos = [
@@ -16,6 +18,43 @@ const Methodos = [
   { name: "PATCH", className: "button-patch" },
 ];
 
+
+
+
+const Opciones = [
+  {
+    name: "Params"
+  },
+  {
+    name: "Body",
+    text: JSON.stringify("{{")
+  },
+  {
+    name: "Headers"
+  }, {
+    name: "Auth"
+  },
+  {
+    name: "Vars"
+  },
+  {
+    name: "Script"
+  },
+  {
+    name: "Assert"
+  },
+  {
+    name: "Tests"
+  }, {
+    name: "Docs"
+  }
+
+]
+
+
+
+
+
 function App() {
   const [selectedMethod, setSelectedMethod] = useState("GET");
   const urlPeticion = useRef(null);
@@ -23,13 +62,50 @@ function App() {
   const [changeRequest, setChangeRequest] = useState(false);
   const [showMethods, setShowMethods] = useState(false);
   const [code, setCode] = useState<number>();
+  const [mimeSelected, setMimeSelected] = useState<number>(0)
 
-  const handleRequest = async (e : React.FormEvent) => {
+
+  const editorRef = useRef(null);
+
+  function handleEditorDidMount(editor, monaco) {
+    editorRef.current = editor;
+  }
+
+  function showValue() {
+    alert(editorRef.current?.getValue());
+  }
+
+
+
+
+
+  const editorValue = useRef<HTMLInputElement>(null)
+
+
+
+  function handleEditorValidation(markers) {
+    // model markers
+    markers.forEach((marker) => console.log('onValidate:', marker.message));
+
+  }
+
+  const [queryParams, setQueryParams] = useState<string>("")
+
+
+  const handleRequest = async (e: React.FormEvent) => {
+
     e.preventDefault();
     if (!urlPeticion.current?.value) return;
 
     try {
+
+
+
+
+
       const url = urlPeticion.current.value;
+
+
       let response;
 
       switch (selectedMethod) {
@@ -62,7 +138,7 @@ function App() {
     <div>
       <div className="w-full gap-2 flex flex-col">
         <form onSubmit={handleRequest}>
-          <div>
+          <div className="my-3">
             <span style={{ fontSize: "11px" }}>
               Selected Method: {selectedMethod}
             </span>
@@ -71,7 +147,7 @@ function App() {
             <button
               type="button"
               onClick={() => setShowMethods(!showMethods)}
-              className="button-toggle"
+              className={`button-selected `}
             >
               {selectedMethod}
             </button>
@@ -107,8 +183,37 @@ function App() {
         </form>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="gridi">
-            
+          <div className="gridi ">
+            <div className="flex flex-wrap gap-1">
+              {Opciones.map((opcion, index) => (
+                <button key={index} className={`button-selected font-bold ${index === mimeSelected ? "bg-red-500" : "bg-yellow-500"}`} onClick={() => setMimeSelected(index)} >
+                  {opcion.name}
+                </button>
+              ))}
+
+
+              {mimeSelected === 1 ? (
+                <>
+                  <button onClick={showValue}>Show value</button>
+                <Editor onMount={handleEditorDidMount} onValidate={handleEditorValidation}  height="60vh" defaultLanguage="json" theme="vs-dark" />
+                </>
+              ) : null}
+
+              {mimeSelected === 0 ? (
+                <div className="w-full h-full">
+                  <p>Query</p>
+                  <input
+                    type="text"
+                    className="w-full p-2 border rounded"
+                    placeholder="param1=valor1&param2=valor2"
+                    value={queryParams}
+                    onChange={(e) => setQueryParams(e.target.value)}
+                  />
+                </div>
+              ) : null}
+
+
+            </div>
           </div>
           {responseSelected ? (
             <div className="border-zinc-800 border-1 rounded-md p-4">
@@ -117,12 +222,12 @@ function App() {
               </div>
               <JSONPretty
                 data={responseSelected}
-                style={{ fontSize: "14px", padding: "10px",background: "trasparent" }}
+                style={{ fontSize: "14px", padding: "10px", height: "100%", overflowY: "scroll" }}
               />
             </div>
           ) : (
-            <pre className="border-zinc-800 border-1 rounded-md p-4 justify-center">
-              <Icon icon="lucide:send" width="120" height="120" />
+            <pre className="border-zinc-800 border-1 rounded-md p-4 grid place-content-center">
+              <Icon icon="lucide:send" width="120" height="120" className="text-zinc-700" />
               <p>Not found request</p>
             </pre>
           )}

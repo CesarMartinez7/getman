@@ -103,6 +103,10 @@ input {
 }
 
 
+.button-selected{
+  @apply border border-zinc-900 rounded-none rounded-t-md
+}
+
 .button-put {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -125,7 +129,7 @@ input {
   font-family: inherit;
   background-color: #8a2be263; /* Morado */
   cursor: pointer;
-  color: rgb(143, 8, 227);
+  color: rgb(151, 4, 241);
   transition: border-color 0.25s;
 }
 
@@ -192,6 +196,7 @@ button:focus-visible {
 }
 
 .method-buttons {
+  z-index: 999;
   display: flex;
   justify-content: center;
   gap: 6px;
