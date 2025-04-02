@@ -5,13 +5,17 @@ set -e  # Detener el script si algun comando no se ejecuta correctamente
 
 # Si una funcion no tiene parametros no hace falta que se pongan las comillas para generar los comentarios
 status_git(){
-    echo hello world aqui en status git
+    git status 
+}
 
-    status_git=$(git status)
-    echo $status_git
+
+# Los parametros en las funciones en bash se pasan por posiciones la primera posicion es el nombre del archivo / funcion a realizar el segundo parametro si es el argumento que se le pasa
+type_commit(){
+    echo "Hola escribe aqui el tipo de commit que quieres hacer $1 "
 }
 
 status_git
+type_commit "Cesr"
 
 
 
@@ -26,7 +30,7 @@ echo "Generando Commit"
 concurrent_rama=$(git branch --show-current)
 
 # Leer el mensaje del committ
-read -p "Comentario del Commit: " comment_commit
+read -p "Comentario del commit:      " comment_commit
 
 # Verificar que el mensaje no esté vacío
 # El argumento -z define si una cadena de string esta vacia mejor dicho
