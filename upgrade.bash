@@ -27,12 +27,17 @@ else
     echo -e "${GREEN}Rama a la Ejecutar push ${concurrent_rama^^}, ${ENDCOLOR}"
     git add .
     git commit -m "$comment_commit"
-    # Ejecucion del comando entre por asi decirlo tuplas para ejecutar el comando y guardarlo en una variable
-    resultado=$(git push origin "$cocurrent_rama")
-    echo $resultado
 
-    read -p "Deseas pushear a la rama ${cocurrent_rama}" push_submit
+    read -p "Deseas pushear a la rama ${cocurrent_rama} : [Y/N] " push_submit
 
+    echo "${GREEN} Pusheando a la rama ${cocurrent_rama} ... ${ENDCOLOR} "
+
+    if [[ push_submit ==  "y" || push_submit == y ]]
+    then
+        git push origin $cocurrent_rama
+    else
+        exit 0
+    fi
 
     
 fi
