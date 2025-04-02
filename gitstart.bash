@@ -3,19 +3,37 @@
 set -e  # Detener el script si algun comando no se ejecuta correctamente
 
 
-# Si una funcion no tiene parametros no hace falta que se pongan las comillas para generar los comentarios
-status_git(){
-    git status 
-}
-
-
 # Los parametros en las funciones en bash se pasan por posiciones la primera posicion es el nombre del archivo / funcion a realizar el segundo parametro si es el argumento que se le pasa
-type_commit(){
-    echo "Hola escribe aqui el tipo de commit que quieres hacer $1 "
+
+
+type_commit() {
+    read -p "Tipo de tu commit (changes/c, delete/d, custom): " type_commit
+
+    typo_commit=""
+    changes=""
+
+    case "$type_commit" in
+        changes|c|C)
+            changes=$(git diff --name-status | grep '^M')
+            echo "Cambios modificados: $changes"
+            typo_commit="changes"
+            ;;
+        delete|d|D)
+            changes=$(git diff --name-status | grep '^D')
+            echo "Cambios eliminados: $changes"
+            typo_commit="delete"
+            ;;
+        *)
+            echo "Custom commit (no se filtraron cambios específicos)"
+            typo_commit="custom"
+            ;;
+    esac
+
+    type="$typo_commit $changes"
+    echo "$type"
 }
 
-status_git
-type_commit "Cesr"
+type_commit
 
 
 
@@ -30,7 +48,7 @@ echo "Generando Commit"
 concurrent_rama=$(git branch --show-current)
 
 # Leer el mensaje del committ
-read -p "Comentario del commit:      " comment_commit
+read -p "Comentario del commit:  " comment_commit
 
 # Verificar que el mensaje no esté vacío
 # El argumento -z define si una cadena de string esta vacia mejor dicho
