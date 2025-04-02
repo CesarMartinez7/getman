@@ -11,7 +11,7 @@ read -p "Comment_commit: " comment_commit
 
 concurrent_rama = $("git branch --show-current")
 
-
+echo $concurrent_rama
 
 # Comandos Git
 git add .
