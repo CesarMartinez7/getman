@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RED="\e[31m"
-
+GREEN="\e[32m"
 
 echo "Generando push"
 
@@ -12,7 +12,7 @@ read -p "Comment_commit: " comment_commit
 # Ejecucion del comando entre por asi decirlo tuplas para ejecutar el comando y guardarlo en una variable
 concurrent_rama=$(git branch --show-current)
 
-echo -e "${RED}Rama a la ejecutar push $concurrent_rama, ${ENDCOLOR}"
+echo -e "${GREEN}Rama a la ejecutar push $concurrent_rama, ${ENDCOLOR}"
 
 
 # Comandos Git
