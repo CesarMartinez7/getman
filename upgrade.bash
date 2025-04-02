@@ -26,4 +26,4 @@ git add .
 git commit -m "$comment_commit"
 resultado=$(git push origin "$cocurrent_rama")
 
-echo resultado
+echo $resultado
