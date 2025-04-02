@@ -2,18 +2,17 @@
 
 echo "Generando push"
 
-# Leer el nombre de la rama
-read -p "Nombre Rama: " rama
 
 # Leer el mensaje del commit
 read -p "Comment_commit: " comment_commit
 
-
+# Ejecucion del comando entre por asi decirlo tuplas para ejecutar el comando y guardarlo en una variable
 concurrent_rama=$(git branch --show-current)
 
-echo $concurrent_rama
+echo Rama a la ejecutar push $concurrent_rama
+
 
 # Comandos Git
 git add .
 git commit -m "$comment_commit"
-git push origin "$rama"
+git push origin "$cocurrent_rama"
