@@ -34,6 +34,7 @@ else
 
     if [[ push_submit ==  "y" || push_submit == y ]]
     then
+        echo apunto de pushear
         git push origin $cocurrent_rama
     else
         exit 1
