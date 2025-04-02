@@ -1,6 +1,19 @@
 #!/bin/bash
 
-set -e  # Detiene el script si algún comando falla
+set -e  # Detener el script si algun comando no se ejecuta correctamente
+
+
+# Si una funcion no tiene parametros no hace falta que se pongan las comillas para generar los comentarios
+status_git(){
+    echo hello world aqui en status git
+
+    status_git=$(git status)
+    echo $status_git
+}
+
+status_git
+
+
 
 # Asignacion de colores para la terminal de Bash
 RED="\e[31m"
@@ -12,12 +25,14 @@ echo "Generando Commit"
 # Obtener la rama actual
 concurrent_rama=$(git branch --show-current)
 
-# Leer el mensaje del commit
+# Leer el mensaje del committ
 read -p "Comentario del Commit: " comment_commit
 
 # Verificar que el mensaje no esté vacío
+# El argumento -z define si una cadena de string esta vacia mejor dicho
 if [[ -z "$comment_commit" ]]; then
     echo -e "${RED}Error: Asegúrate de poner texto en tu commit.${ENDCOLOR}"
+    # Exit 1 para salirme del script, es un equivalente a exit() algo asi en python 0 para no salirse.
     exit 1
 fi
 
