@@ -1,52 +1,43 @@
 #!/bin/bash
 
-# Asignacion de los colores para la terminal de bash
+set -e  # Detiene el script si algún comando falla
+
+# Asignacion de colores para la terminal de Bash
 RED="\e[31m"
 GREEN="\e[32m"
 ENDCOLOR="\e[0m"
 
+echo "Generando Commit"
 
-echo "Generando push"
-
-# Rama actual para Push
+# Obtener la rama actual
 concurrent_rama=$(git branch --show-current)
 
 # Leer el mensaje del commit
-read -p "Comentario Commit: " comment_commit
+read -p "Comentario del Commit: " comment_commit
 
-# Para ejecutar los condicionales en bash las sintaxis es muy importante para generar esto 
-
-# Para saber la longitud de los caracteres de una variable se pone primero el colchon en la parte de la variable para saber el numero de caracteres o logitud q tiene una variable o cadena de texto
-
-if [[ ${#comment_commit} == 0 ]]
-then
-    echo Asegurate de poner texto en tu Commit
-else
-    # Comandos Git
-    # Utilizamos el caret para hacer que nuestra variable al menos en esa parte este en mayuscula, si queremos que se la primera letra entonces la , al final de la variable y si quermemos que todas sean minusculas entonces las cambiamos a una sola caret ^
-    echo -e "${GREEN}Rama a la Ejecutar push ${concurrent_rama^^}, ${ENDCOLOR}"
-    git add .
-    git commit -m "$comment_commit"
-
-    read -p "Deseas pushear a la rama ${cocurrent_rama} : [Y/N] " push_submit
-
-    echo "${GREEN} Pusheando a la rama ${cocurrent_rama} ... ${ENDCOLOR} "
-
-    if [[ push_submit ==  "y" || push_submit == y ]]
-    then
-        echo apunto de pushear
-        git push origin $cocurrent_rama
-    else
-        exit 1
-    fi
-
-    
+# Verificar que el mensaje no esté vacío
+if [[ -z "$comment_commit" ]]; then
+    echo -e "${RED}Error: Asegúrate de poner texto en tu commit.${ENDCOLOR}"
+    exit 1
 fi
 
+# Mostrar la rama en la que se hará el push
+echo -e "${GREEN}Rama actual: ${concurrent_rama^^}${ENDCOLOR}"
 
+# Ejecutar comandos Git
+git add .
+git commit -m "$comment_commit"
 
+# Preguntar si desea hacer push
+read -p "¿Deseas pushear a la rama ${concurrent_rama}? [Y/N]: " push_submit
 
+# Convertir la respuesta a minúsculas para evitar errores
+push_submit=${push_submit,,}
 
-
-
-
+if [[ "$push_submit" == "y" ]]; then
+    echo -e "${GREEN}Pusheando a la rama ${concurrent_rama}...${ENDCOLOR}"
+    git push origin "$concurrent_rama"
+else
+    echo -e "${RED}Push cancelado.${ENDCOLOR}"
+    exit 1
+fi
