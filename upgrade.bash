@@ -36,7 +36,7 @@ else
     then
         git push origin $cocurrent_rama
     else
-        exit 0
+        exit 1
     fi
 
     
