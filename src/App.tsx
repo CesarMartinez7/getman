@@ -13,21 +13,16 @@ import { Methodos, Opciones } from "./mapper/app";
 import { ParamsContext } from "./ui/add-new-item";
 
 
-
-
-
-
-
 function App() {
 
   const paramsFormat = useContext(ParamsContext)
-  
+
   const [queryParams, setQueryParams] = useState(paramsFormat || "")
-  
+
   useEffect(() => {
-    window.alert(queryParams)
+    
     setQueryParams(queryParams)
-  },[paramsFormat])
+  }, [paramsFormat])
 
   const [selectedMethod, setSelectedMethod] = useState("GET");
   const urlPeticion = useRef<HTMLInputElement>(null);
@@ -43,7 +38,7 @@ function App() {
 
   const editorRef = useRef<HTMLDivElement>(null);
 
-  function handleEditorDidMount(editor : unknown) {
+  function handleEditorDidMount(editor: unknown) {
     editorRef.current = editor;
   }
 
@@ -97,7 +92,7 @@ function App() {
 
   }
 
-  
+
 
   return (
     <div>
@@ -119,7 +114,7 @@ function App() {
             <input
               type="text"
               ref={urlPeticion}
-              
+
               placeholder="https://....."
               className="w-full"
             />
@@ -170,7 +165,7 @@ function App() {
                   <AddNewItem />
 
                   <button className="button">Debug</button>
-                  
+
 
                   {/* <p>Query</p>
                   <input
@@ -180,7 +175,7 @@ function App() {
                     value={queryParams}
                     onChange={(e) => setQueryParams(e.target.value)}
                   /> */}
-                </div> 
+                </div>
 
 
               ) : null}
