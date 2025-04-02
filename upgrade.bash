@@ -30,6 +30,10 @@ else
     # Ejecucion del comando entre por asi decirlo tuplas para ejecutar el comando y guardarlo en una variable
     resultado=$(git push origin "$cocurrent_rama")
     echo $resultado
+
+    read -p "Deseas pushear a la rama ${cocurrent_rama}" push_submit
+
+
     
 fi
 
