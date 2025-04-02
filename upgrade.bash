@@ -1,9 +1,10 @@
+
 echo "Generando push"
 
-echo "Rama principal"
-read rama_principal :
-echo "Commit comment"
-read comment_commit
+
+read -p "Nombre Rama":
+read -p "Comment_commit"
+
 git add .
-git commit -m $comment_commit
+git commit -m "$comment_commit"
 git push origin $rama_principal
