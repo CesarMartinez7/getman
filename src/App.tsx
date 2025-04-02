@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
 import { Icon } from "@iconify/react";
@@ -8,57 +8,29 @@ import "./tema.css"
 import "react-json-pretty/themes/monikai.css";
 import { Editor } from "@monaco-editor/react";
 import AddNewItem from "./ui/add-new-item";
+import { useContext } from "react";
+import { Methodos, Opciones } from "./mapper/app";
+import { ParamsContext } from "./ui/add-new-item";
 
 
-
-const Methodos = [
-  { name: "GET", className: "button-get" },
-  { name: "POST", className: "button-post" },
-  { name: "PUT", className: "button-put" },
-  { name: "DELETE", className: "button-delete" },
-  { name: "PATCH", className: "button-patch" },
-];
-
-
-
-
-const Opciones = [
-  {
-    name: "Params"
-  },
-  {
-    name: "Body",
-    text: JSON.stringify("{{")
-  },
-  {
-    name: "Headers"
-  }, {
-    name: "Auth"
-  },
-  {
-    name: "Vars"
-  },
-  {
-    name: "Script"
-  },
-  {
-    name: "Assert"
-  },
-  {
-    name: "Tests"
-  }, {
-    name: "Docs"
-  }
-
-]
 
 
 
 
 
 function App() {
+
+  const paramsFormat = useContext(ParamsContext)
+  
+  const [queryParams, setQueryParams] = useState(paramsFormat || "")
+  
+  useEffect(() => {
+    window.alert(queryParams)
+    setQueryParams(queryParams)
+  },[paramsFormat])
+
   const [selectedMethod, setSelectedMethod] = useState("GET");
-  const urlPeticion = useRef(null);
+  const urlPeticion = useRef<HTMLInputElement>(null);
   const [responseSelected, setResponseSelected] = useState("");
   const [changeRequest, setChangeRequest] = useState(false);
   const [showMethods, setShowMethods] = useState(false);
@@ -69,9 +41,9 @@ function App() {
   const [bodyJson, setBodyJson] = useState<string>("")
 
 
-  const editorRef = useRef(null);
+  const editorRef = useRef<HTMLDivElement>(null);
 
-  function handleEditorDidMount(editor, monaco) {
+  function handleEditorDidMount(editor : unknown) {
     editorRef.current = editor;
   }
 
@@ -88,7 +60,7 @@ function App() {
 
     try {
 
-      const url = urlPeticion.current.value;
+      const url = urlPeticion.current.value + queryParams;
 
       let response;
 
@@ -125,7 +97,7 @@ function App() {
 
   }
 
-  const [queryParams, setQueryParams] = useState<string>("")
+  
 
   return (
     <div>
@@ -147,7 +119,7 @@ function App() {
             <input
               type="text"
               ref={urlPeticion}
-              defaultValue={"https://pokeapi.co/api/v2/pokemon/ditto"}
+              
               placeholder="https://....."
               className="w-full"
             />
@@ -179,7 +151,7 @@ function App() {
           <div className="gridi ">
             <div className="flex flex-wrap gap-1">
               {Opciones.map((opcion, index) => (
-                <button key={index} className={`button-selected font-bold ${index === mimeSelected ? "bg-red-500" : "bg-yellow-500"}`} onClick={() => setMimeSelected(index)} >
+                <button key={index} className={`button-selected px-2 py-1 font-bold ${index === mimeSelected ? " border-b-2 border-indigo-500" : "bg-zinc-900"}`} onClick={() => setMimeSelected(index)} >
                   {opcion.name}
                 </button>
               ))}
@@ -196,64 +168,19 @@ function App() {
 
                 <div className="w-full h-full">
                   <AddNewItem />
-                  <div className="relative overflow-x-auto">
-                    <table className="w-full text-sm text-left rtl:text-right  ">
-                      <thead className="text-xs  uppercase ">
-                        <tr>
-                          <th scope="col" className="px-6 py-3">
-                            Name
-                          </th>
-                          <th scope="col" className="px-6 py-3">
-                            Value
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className=" border-b border-zinc-800">
-                          <th scope="row" className="px-6 py-4 ">
-                            Apple MacBook Pro 17"
-                          </th>
-                          <td className="px-6 py-4">
-                            Silver
-                          </td>
 
-                        </tr>
-                        <tr className=" border-b   border-zinc-800">
-                          <th scope="row" className="px-6 py-4 font-medium">
-                            Microsoft Surface Pro
-                          </th>
-                          <td className="px-6 py-4">
-                            White
-                          </td>
+                  <button className="button">Debug</button>
+                  
 
-                        </tr>
-                        <tr className=" ">
-                          <th scope="row" className="px-6 py-4 font-medium">
-                            Magic Mouse 2
-                          </th>
-                          <td className="px-6 py-4">
-                            Black
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-
-
-
-
-
-
-                  <p>Query</p>
+                  {/* <p>Query</p>
                   <input
                     type="text"
                     className="w-full p-2 border rounded"
                     placeholder="param1=valor1&param2=valor2"
                     value={queryParams}
                     onChange={(e) => setQueryParams(e.target.value)}
-                  />
-                </div>
+                  /> */}
+                </div> 
 
 
               ) : null}

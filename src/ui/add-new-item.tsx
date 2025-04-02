@@ -1,8 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, createContext } from "react";
+
+
+export const ParamsContext = createContext<string | undefined>(undefined)
 
 const AddNewItem = () => {
   const [params, setParams] = useState<{ key: string; value: string }[]>([]);
-  const urlPeticion = useRef<HTMLInputElement>(null);
+  const [paramsFinal, setParamsFinal] = useState<string>()
 
   const handleAddParam = () => {
     setParams([...params, { key: "", value: "" }]);
@@ -23,41 +26,43 @@ const AddNewItem = () => {
 
   const handleRequest = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!urlPeticion.current?.value) return;
 
-    let url = urlPeticion.current.value;
+
+    // Parametros finales o params finales que se pasara por context a las otras partes de la app
     const queryParams = buildQueryParams();
+    setParamsFinal(queryParams)
+    console.log("URL final con params:", paramsFinal);
 
-    if (queryParams) {
-      url += url.includes("?") ? `&${queryParams}` : `?${queryParams}`;
-    }
-
-    console.log("URL final con params:", url);
   };
 
   return (
-    <div>
-      <button onClick={handleAddParam} className="p-2 bg-blue-500 text-white rounded">➕ N  ew Item</button>
+    <ParamsContext.Provider value={paramsFinal} >
+      <div className=" h-full w-full flex flex-col gap-2">
+      <div className="flex gap-2">
+        <button onClick={handleAddParam} className="button-put">Añadir Parametros</button>
+      </div>
       {params.map((param, index) => (
-        <div key={index} className="flex gap-2 my-2 justify-between">
+        <div key={index} className="flex gap-2  justify-between">
           <input
             type="text"
             placeholder="Key"
             value={param.key}
             onChange={(e) => handleParamChange(index, "key", e.target.value)}
-            className="border p-2"
+            className="border w-2/4"
           />
           <input
             type="text"
             placeholder="Value"
             value={param.value}
             onChange={(e) => handleParamChange(index, "value", e.target.value)}
-            className="border p-2"
+            className=" w-2/4"
           />
         </div>
       ))}
-      <button onClick={handleRequest} className="p-2 bg-green-500 text-white rounded">Submit</button>
+      <button onClick={handleRequest} className="p-2 button-get ">Enviar</button>
     </div>
+    </ParamsContext.Provider>
+    
   );
 };
 
