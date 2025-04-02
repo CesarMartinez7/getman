@@ -1,10 +1,14 @@
+#!/bin/bash
 
 echo "Generando push"
 
+# Leer el nombre de la rama
+read -p "Nombre Rama: " rama
 
-read -p "Nombre Rama":
-read -p "Comment_commit"
+# Leer el mensaje del commit
+read -p "Comment_commit: " comment_commit
 
+# Comandos Git
 git add .
 git commit -m "$comment_commit"
-git push origin $rama_principal
+git push origin "$rama"
