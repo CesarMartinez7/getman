@@ -14,7 +14,6 @@ export default function ButtonResponse({ code }: { code: number | undefined }) {
 
         }
 
-
         if (code > 300) {
             return (
                 <div className="bg-red-500 py-0.5 px-2 rounded-sm text-red-200 text-[10px]">

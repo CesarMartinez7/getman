@@ -3,65 +3,59 @@ import "./App.css";
 import axios from "axios";
 import { Icon } from "@iconify/react";
 import JSONPretty from "react-json-pretty";
-import ButtonResponse from "./ui/span-response";
-import "./tema.css"
-import "react-json-pretty/themes/monikai.css";
+import ButtonResponse from "./ui/buttonResponse";
+import "./tema.css";
 import { Editor } from "@monaco-editor/react";
-import AddNewItem from "./ui/add-new-item";
+import AddNewItem from "./ui/addQueryParams";
 import { useContext } from "react";
 import { Methodos, Opciones } from "./mapper/app";
-import { ParamsContext } from "./ui/add-new-item";
+import { ParamsContext } from "./ui/addQueryParams";
+import "react-json-pretty/themes/monikai.css";
+import "react-json-pretty/"
+export default function App() {
 
-
-function App() {
-
-  const paramsFormat = useContext(ParamsContext)
-
-  const [queryParams, setQueryParams] = useState(paramsFormat || "")
-
-  useEffect(() => {
-    
-    setQueryParams(queryParams)
-  }, [paramsFormat])
-
+  const paramsFormat = useContext(ParamsContext);
+  const [queryParams, setQueryParams] = useState(paramsFormat || "");
   const [selectedMethod, setSelectedMethod] = useState("GET");
   const urlPeticion = useRef<HTMLInputElement>(null);
   const [responseSelected, setResponseSelected] = useState("");
   const [changeRequest, setChangeRequest] = useState(false);
   const [showMethods, setShowMethods] = useState(false);
   const [code, setCode] = useState<number>();
-  const [mimeSelected, setMimeSelected] = useState<number>(0)
-
-
-  const [bodyJson, setBodyJson] = useState<string>("")
-
-
+  const [mimeSelected, setMimeSelected] = useState<number>(0);
+  const [bodyJson, setBodyJson] = useState<string>("");
   const editorRef = useRef<HTMLDivElement>(null);
 
+
+  useEffect(() => {
+    console.log(paramsFormat);
+    setQueryParams(queryParams);
+  }, [queryParams]);
+
+  
+  // Evento para montar el editor
   function handleEditorDidMount(editor: unknown) {
+    //@ts-ignore
     editorRef.current = editor;
   }
 
+  // Mostrar valor del editor
   function showValue() {
     //@ts-ignore
     setBodyJson(editorRef.current?.getValue());
-    console.error(bodyJson)
+    console.error(bodyJson);
   }
 
   const handleRequest = async (e: React.FormEvent) => {
-
     e.preventDefault();
     if (!urlPeticion.current?.value) return;
-
     try {
-
-      const url = urlPeticion.current.value + queryParams;
-
+      let params = paramsFormat || ""
+      const url = urlPeticion.current.value + paramsFormat
       let response;
-
       switch (selectedMethod) {
         case "POST":
-          response = await axios.post(url, { data: "data here" });
+          response = await axios.post(url  , { data: "data here" });
           break;
         case "PUT":
           response = await axios.put(url, { data: "Ejemplo de PUT" });
@@ -80,19 +74,19 @@ function App() {
       setResponseSelected(response.data);
       setChangeRequest(!changeRequest);
     } catch (error) {
+      //@ts-ignore
       setResponseSelected(`Error: ${error.message}`);
+      //@ts-ignore
       setCode(error.response?.status || 500);
     }
   };
 
-
+  //@ts-ignore
   function handleEditorValidation(markers) {
     // model markers
-    markers.forEach((marker) => console.log('onValidate:', marker.message));
-
+    //@ts-ignore
+    markers.forEach((marker) => console.log("onValidate:", marker.message));
   }
-
-
 
   return (
     <div>
@@ -100,7 +94,7 @@ function App() {
         <form onSubmit={handleRequest}>
           <div className="my-3">
             <span className="text-[12px]">
-              Selected Method: {selectedMethod}
+              Metodo seleccionado: {selectedMethod}
             </span>
           </div>
           <div className="flex-row">
@@ -114,21 +108,18 @@ function App() {
             <input
               type="text"
               ref={urlPeticion}
-
               placeholder="https://....."
               className="w-full"
             />
-            <button type="submit" className="">
+            <button type="submit" className="button">
               Enviar
             </button>
           </div>
-
           {showMethods && (
             <div className="method-buttons">
               {Methodos.map((metodo) => (
                 <button
                   key={metodo.name}
-                  type="button"
                   className={metodo.className}
                   onClick={() => {
                     setSelectedMethod(metodo.name.toUpperCase());
@@ -143,44 +134,39 @@ function App() {
         </form>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="gridi ">
+          <div className="gridi">
             <div className="flex flex-wrap gap-1">
               {Opciones.map((opcion, index) => (
-                <button key={index} className={`button-selected px-2 py-1 font-bold ${index === mimeSelected ? " border-b-2 border-indigo-500" : "bg-zinc-900"}`} onClick={() => setMimeSelected(index)} >
+                <button
+                  key={index}
+                  className={`button-selected px-2 py-1 font-bold ${
+                    index === mimeSelected
+                      ? " border-b-2 border-indigo-500"
+                      : "bg-zinc-900 p-1"
+                  }`}
+                  onClick={() => setMimeSelected(index)}
+                >
                   {opcion.name}
                 </button>
               ))}
-
-
               {mimeSelected === 1 ? (
                 <>
                   <button onClick={showValue}>Show value</button>
-                  <Editor onMount={handleEditorDidMount} onValidate={handleEditorValidation} height="60vh" defaultLanguage="json" theme="vs-dark" />
+                  <Editor
+                    onMount={handleEditorDidMount}
+                    onValidate={handleEditorValidation}
+                    height="60vh"
+                    defaultLanguage="json"
+                    theme="vs-dark"
+                  />
                 </>
               ) : null}
 
               {mimeSelected === 0 ? (
-
                 <div className="w-full h-full">
                   <AddNewItem />
-
-                  <button className="button">Debug</button>
-
-
-                  {/* <p>Query</p>
-                  <input
-                    type="text"
-                    className="w-full p-2 border rounded"
-                    placeholder="param1=valor1&param2=valor2"
-                    value={queryParams}
-                    onChange={(e) => setQueryParams(e.target.value)}
-                  /> */}
                 </div>
-
-
               ) : null}
-
-
             </div>
           </div>
           {responseSelected ? (
@@ -190,12 +176,22 @@ function App() {
               </div>
               <JSONPretty
                 data={responseSelected}
-                style={{ fontSize: "14px", padding: "10px", height: "100%", overflowY: "scroll" }}
+                style={{
+                  fontSize: "14px",
+                  padding: "10px",
+                  height: "100%",
+                  overflowY: "scroll",
+                }}
               />
             </div>
           ) : (
             <pre className="border-zinc-800 border-1 rounded-md p-4 grid place-content-center">
-              <Icon icon="lucide:send" width="120" height="120" className="text-zinc-700" />
+              <Icon
+                icon="lucide:send"
+                width="120"
+                height="120"
+                className="text-zinc-700"
+              />
               <p>Not found request</p>
             </pre>
           )}
@@ -205,4 +201,3 @@ function App() {
   );
 }
 
-export default App;
